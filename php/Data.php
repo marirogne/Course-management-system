@@ -58,14 +58,14 @@
                                     array_push($studArr, array($stud[0], $stud[1], $stud[2], $stud[3]));
                                 }
                                 return $studArr;
-                                if (count($studArr) == 1) {
+                                /* if (count($studArr) == 1) {
                                     $response = array (
                                         "type" => "Success: ",
                                         "message" => "File validation success."
-                                    ); 
+                                    );  */
                                  $filepath = '../files/students.csv';
                                 $current = file_get_contents($filepath);
-                                $current .= "\n" . file_get_contents($ftemp);
+                                $current .= "\n" . file_get_contents($studArr);
     
                                 file_put_contents('../files/students.csv', $current)
                                 fclose($fp);

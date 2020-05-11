@@ -36,15 +36,44 @@ function csvToArray($filesName){
                     echo implode($response);
                 } else {
                      $lengthArray = array();
-                    $row = 1;
+                    //$row = 1;
                     if (($fp = fopen($_FILES["filename"]["tmp_name"], "r")) !== FALSE) {
                         while (($data = fgetcsv($fp, 1000, ",")) !== FALSE) {
-                            $lengthArray[] = count($data);
-                            $row ++;
+                            $lengthArray[] = $data;
+                            //$row ++;
                         }
+                    
+                        $studentArray = array();
+                        $courseArray = array();
+                        $gradeArray = array();
+
+                        foreach($lengthArray as $rows) {
+                            array_push($studentArray, array($rows[0], $rows[1], $rows[2], $rows[3]));
+                            array_push($courseArray, array($rows[4], $rows[5], $rows[6], $rows[7], $rows[8], $rows[9]));
+                            array_push($gradeArray, array($rows[0], $rows[4], $rows[10]));
+                        }
+                        
+                        $openstudents = fopen('../files/students.csv', 'a+');
+                        $opencourses = fopen('../files/courses.csv', 'a+');
+                        $opengrades = fopen('../files/grades.csv', 'a+');
+                        foreach($studentArray as $row){
+                            fputcsv($openstudents, $row);
+                        }
+                        foreach($courseArray as $row){
+                            fputcsv($opencourses, $row);
+                        }
+                        foreach($gradeArray as $row){
+                            fputcsv($opengrades, $row);
+                        }
+                        /* $studentfilepath = '../files/students.csv';
+                        $studentcurrent = file_get_contents($studentfilepath);
+                        $studentcurrent .= "\n" . file_get_contents($studentArray);
+    
+                        file_put_contents('../files/students.csv', $studentcurrent);
+ */
                         fclose($fp);
                     }
-                    $lengthArray = array_unique($lengthArray);
+                    /* $lengthArray = array_unique($lengthArray);
                     if (count($lengthArray) == 1) {
                         $response = array (
                             "type" => "Success: ",
@@ -61,7 +90,7 @@ function csvToArray($filesName){
                             "type" => "Error: ",
                             "message" => "Invalid CSV."
                         );
-                    }
+                    } */
                 }
     }   
 } 
