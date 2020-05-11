@@ -1,6 +1,7 @@
 <?php
-    include '../html/nav.html';
-    include 'data3.php';
+    include_once '../html/nav.html';
+    //include_once 'Data.php';
+    include_once 'data3.php';
     
     
 
@@ -33,8 +34,8 @@
     _END;
 
     /* $update = new Data('../files/update.csv');
-    echo $update->csvToArray('../files/students.csv');
- */
+    echo $update->csvToArray('../files/students.csv'); */
+ 
     
 
 ?>

@@ -42,11 +42,37 @@
                             $row = 1;
                             if (($fp = fopen($_FILES["filename"]["tmp_name"], "r")) !== FALSE) {
                                 while (($data = fgetcsv($fp, 1000, ",")) !== FALSE) {
-                                    $lengthArray[] = count($data);
+                                    $lengthArray[] = $data;
                                     $row ++;
                                 }
+
+
+                                $studArr = array();
+                                $studCsv = studArrayFromFile('../files/students.csv');
+                                if (count($studCsv) != 0) {
+                                    foreach($studCsv as &$cStud) {
+                                        array_push($studArr, $cStud);
+                                    }
+                                }
+                                foreach($arr as &$stud) {
+                                    array_push($studArr, array($stud[0], $stud[1], $stud[2], $stud[3]));
+                                }
+                                return $studArr;
+                                if (count($studArr) == 1) {
+                                    $response = array (
+                                        "type" => "Success: ",
+                                        "message" => "File validation success."
+                                    ); 
+                                 $filepath = '../files/students.csv';
+                                $current = file_get_contents($filepath);
+                                $current .= "\n" . file_get_contents($ftemp);
+    
+                                file_put_contents('../files/students.csv', $current)
                                 fclose($fp);
                             }
+
+
+
                             $lengthArray = array_unique($lengthArray);
                             if (count($lengthArray) == 1) {
                                 $response = array (
@@ -58,7 +84,7 @@
                             $current .= "\n" . file_get_contents($ftemp);
 
                             file_put_contents('../files/update.csv', $current);
-                            echo "Hooray, you have updated the table!<br>"; */
+                            echo "Hooray, you have updated the table!<br>";
                              } else {
                                 $response = array(
                                     "type" => "Error: ",
@@ -74,23 +100,27 @@
             
             //foreach ($filename as $file){
                 
-                foreach($filesname as $filename){
-                    $file = array_map('str_getcsv', file($filename));
+               // foreach($filesname as $filename){
+                    $file = array_map('str_getcsv', file($filesname));
                     foreach($file as $row){
+                        if($row < 4){
                         $newstudent = new Student ($row[0], $row[1], $row[2], $row[3]);
+                        $newstudent->showStudentInfo($row[0], $row[1], $row[2], $row[3]);
+                        } elseif($row > 3){
                         $newcourse = new Course ($row[4], $row[5], $row[6], $row[7], $row[8], $row[9]);
-                    
+                        $newcourse->showCourseInfo($row[4], $row[5], $row[6], $row[7], $row[8], $row[9]);
+                        }
                     if($courseCode == -1){
                         array_push($this->cArray, $newCourse);
-                        $newcourse->showCourseInfo($row[4], $row[5], $row[6], $row[7], $row[8], $row[9]);
+                        
                     }
 
                     }
 
                     
                     //echo $newstudent->showStudentInfo($row[0], $row[1], $row[2], $row[3]);
-                    //$this->sArray[$newstudent-> getStudNo()] = $newstudent;
-                    //$this->cArray[$newcourse-> getCcode()] = $newcourse;
+                    $this->sArray[$newstudent-> getStudNo()] = $newstudent;
+                    $this->cArray[$newcourse-> getCcode()] = $newcourse;
                     //echo $newcourse->showCourseInfo($row[4], $row[5], $row[6], $row[7], $row[8], $row[9]);
                         /* foreach ($newstudent as $student){
                             array_push($this->getsArray(), $student);                            
@@ -101,7 +131,7 @@
                             
                         } */
 
-                }
+                //}
             //}
 
 

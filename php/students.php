@@ -2,7 +2,8 @@
 
     include '../html/nav.html';
     include_once 'StudentClass.php';
-    include_once 'Data.php';
+    //include_once 'Data.php';
+    include_once 'data3.php';
 
     $student1 = new student(1, "Mari", "Rogne", 190395);
 
@@ -23,9 +24,9 @@
                 </thead>
                 <tbody>
     _END;
-    $cData = new Data('../files/update.csv');
-    echo $cData->readCSV('../files/update.csv');
-    $newStudent->showStudentInfo();
+    /* $cData = new Data('../files/update.csv');
+    $cData->readCSV('../files/update.csv');
+    //$newStudent->showStudentInfo(); */
     
                     
     echo <<< _END

@@ -2,24 +2,71 @@
 
 include_once 'Course.php';
 include_once 'StudentClass.php';
-include_once 'upload.php';
+//include_once 'upload.php';
 
 
 
-if(isset($_POST['submit'])){
+/* if(isset($_POST['submit'])){
     if(isset($_FILES['file'])){
         if(($handle = fopen($_FILES['file']['tmp_name'], 'r')) !== FALSE){
             while(($data = fgetcsv($handle, 1000, ",")) !== FALSE){
                 
                 print_r($data);
-                /* for($i = 0; $i < count($data); $i++){
+                for($i = 0; $i < count($data); $i++){
                     echo $data[$i] . "<br />\n";
-                } */
+                }
             }
             fclose($handle);
         }
     }
-}
+} */
+
+function csvToArray($filesName){
+    if(isset($_FILES['filename'])) {
+        
+        $fname = $_FILES["filename"]["name"];
+        $ftemp = $_FILES["filename"]["tmp_name"];
+        $extension = pathinfo($fname, PATHINFO_EXTENSION);
+                if ($extension != 'csv'){
+                    $response = array(
+                        "Type" => "Error: ",
+                        "Message" => "NB!!! Only CSV-files are allowed!<br> <br>"
+
+                    );
+                    echo implode($response);
+                } else {
+                     $lengthArray = array();
+                    $row = 1;
+                    if (($fp = fopen($_FILES["filename"]["tmp_name"], "r")) !== FALSE) {
+                        while (($data = fgetcsv($fp, 1000, ",")) !== FALSE) {
+                            $lengthArray[] = count($data);
+                            $row ++;
+                        }
+                        fclose($fp);
+                    }
+                    $lengthArray = array_unique($lengthArray);
+                    if (count($lengthArray) == 1) {
+                        $response = array (
+                            "type" => "Success: ",
+                            "message" => "File validation success."
+                        ); 
+                     $filepath = '../files/update.csv';
+                    $current = file_get_contents($filepath);
+                    $current .= "\n" . file_get_contents($ftemp);
+
+                    file_put_contents('../files/update.csv', $current);
+                    echo "Hooray, you have updated the table!<br>";
+                     } else {
+                        $response = array(
+                            "type" => "Error: ",
+                            "message" => "Invalid CSV."
+                        );
+                    }
+                }
+    }   
+} 
+
+echo csvToArray('../files/update.csv');
 
 
 
@@ -118,7 +165,7 @@ function splitArray($array, $value){
         }
 
         foreach($array as $grade){
-            array_push($gradeArray, array($grade[0], $grade[4], $grade[2], $grade[10]));
+            array_push($gradeArray, array($grade[0], $grade[4], $grade[10]));
         }
         return $gradeArray;
     }
