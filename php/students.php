@@ -47,6 +47,14 @@
         fclose($fp);
     }
     
+
+   /*  function removeDuplicates($array){
+        $array = array_map("unserialize", array_unique(array_map("serialize", $array)));
+        $array = array_values($array);
+        return $array;
+    } */
+
+
                     
     echo <<< _END
                 </tbody>
