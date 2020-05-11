@@ -21,7 +21,8 @@ include_once 'StudentClass.php';
     }
 } */
 
-function csvToArray($filesName){
+//function csvToArray($filesName){
+    if(isset($_POST['upload'])){
     if(isset($_FILES['filename'])) {
         
         $fname = $_FILES["filename"]["name"];
@@ -36,11 +37,11 @@ function csvToArray($filesName){
                     echo implode($response);
                 } else {
                      $lengthArray = array();
-                    //$row = 1;
+                    $row = 1;
                     if (($fp = fopen($_FILES["filename"]["tmp_name"], "r")) !== FALSE) {
-                        while (($data = fgetcsv($fp, 1000, ",")) !== FALSE) {
+                        while (($data = fgetcsv($fp, 5000, ",")) !== FALSE) {
                             $lengthArray[] = $data;
-                            //$row ++;
+                            $row ++;
                         }
                     
                         $studentArray = array();
@@ -48,10 +49,11 @@ function csvToArray($filesName){
                         $gradeArray = array();
 
                         foreach($lengthArray as $rows) {
-                            array_push($studentArray, array($rows[0], $rows[1], $rows[2], $rows[3]));
+                            array_push($studentArray, array($rows[0], $rows[1], $rows[2], (strtotime($rows[3]))));
                             array_push($courseArray, array($rows[4], $rows[5], $rows[6], $rows[7], $rows[8], $rows[9]));
                             array_push($gradeArray, array($rows[0], $rows[4], $rows[10]));
                         }
+                        
                         
                         $openstudents = fopen('../files/students.csv', 'a+');
                         $opencourses = fopen('../files/courses.csv', 'a+');
@@ -65,6 +67,8 @@ function csvToArray($filesName){
                         foreach($gradeArray as $row){
                             fputcsv($opengrades, $row);
                         }
+
+                        //array_unique($studentArray);
                         /* $studentfilepath = '../files/students.csv';
                         $studentcurrent = file_get_contents($studentfilepath);
                         $studentcurrent .= "\n" . file_get_contents($studentArray);
@@ -92,17 +96,45 @@ function csvToArray($filesName){
                         );
                     } */
                 }
-    }   
+    } 
 } 
+//} 
 
-echo csvToArray('../files/update.csv');
-
-
-
+//echo csvToArray('../files/update.csv');
 
 
 
 
+/* function removeDuplicates($array){
+    $array = array_map("unserialize", array_unique(array_map("serialize", $array)));
+    $array = array_values($array);
+    return $array;
+} */
+
+/* $lines = array();
+
+// open the csv file
+if (($handle = fopen("../files/students.csv", "r")) !== false) {
+    // read each line into an array
+    while (($data = fgetcsv($handle, 8192, ",")) !== false) {
+        // build a "line" from the parsed data
+        $line = join(",", $data);
+
+        // if the line has been seen, skip it
+        if (isset($lines[$line])) continue;
+
+        // save the line
+        $lines[$line] = true;
+    }
+    fclose($handle);
+}
+
+// build the new content-data
+$contents = '';
+foreach ($lines as $line => $bool) $contents .= $line . "\r\n";
+
+// save it to a new file
+file_put_contents("../files/students.csv", $contents); */
 
 
 

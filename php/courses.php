@@ -22,9 +22,20 @@
                 </thead>
                 <tbody>
     _END;
-        /* $cData = new Data('../files/update.csv');
-        echo $cData->readCSV('../files/update.csv');
-        //$newCourse->showCourseInfo(); */
+    $courseArray = array();
+    if (($fp = fopen('../files/courses.csv', 'r')) !== FALSE) {
+        while (($data = fgetcsv($fp, 1000, ",")) !== FALSE) {
+            $courseArray[] = $data;
+            //$row ++;
+        }
+        $count = count($courseArray);
+        echo "<p>There are <b>$count</b> courses registered.</p>";
+
+        foreach($courseArray as $row){
+            $course = new Course($row[0], $row[1], $row[2], $row[3], $row[4], $row[5]);
+                            $course->showCourseInfo();
+        }
+    }
     echo <<< _END
                 </tbody>
             </table>

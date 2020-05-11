@@ -5,7 +5,8 @@
     //include_once 'Data.php';
     include_once 'data3.php';
 
-    $student1 = new student(1, "Mari", "Rogne", 190395);
+    //$student1 = new student(1, "Mari", "Rogne", 190395);
+
 
     echo <<< _END
         <div class="content">
@@ -27,6 +28,24 @@
     /* $cData = new Data('../files/update.csv');
     $cData->readCSV('../files/update.csv');
     //$newStudent->showStudentInfo(); */
+    $studArray = array();
+   
+    if (($fp = fopen('../files/students.csv', 'r')) !== FALSE) {
+        while (($data = fgetcsv($fp, 1000, ",")) !== FALSE) {
+            $studArray[] = $data;
+            //$row ++;
+        }
+        $count = count($studArray);
+        echo "<p>There are <b>$count</b> students registered.</p>";
+        foreach($studArray as $row){
+            $student = new Student($row[0], $row[1], $row[2], date('d-m-Y', $row[3]));
+                            $student->showStudentInfo();
+        }
+        
+        
+
+        fclose($fp);
+    }
     
                     
     echo <<< _END
@@ -36,7 +55,6 @@
 
     _END;
 
-    
     
 
 ?>
