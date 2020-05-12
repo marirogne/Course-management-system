@@ -45,8 +45,10 @@ include_once 'StudentClass.php';
                         $openstudents = fopen('../files/students.csv', 'a+');
                         $opencourses = fopen('../files/courses.csv', 'a+');
                         $opengrades = fopen('../files/grades.csv', 'a+');
+                        
                         foreach($studentArray as $row){
                             fputcsv($openstudents, $row);
+                            
                         }
                         foreach($courseArray as $row){
                             fputcsv($opencourses, $row);
@@ -54,13 +56,8 @@ include_once 'StudentClass.php';
                         foreach($gradeArray as $row){
                             fputcsv($opengrades, $row);
                         }
-
-                        $uniqueStudents = uniqueRows($studentArray);
-                        update($uniqueStudents, '../files/students.csv', 'w');
-                        $uniqueCourses = uniqueRows($courseArray);
-                        update($uniqueCourses, '../files/courses.csv', 'w');
-                        $uniqueGrades = uniqueRows($gradeArray);
-                        update($uniqueGrades, '../files/grades.csv', 'w');
+                        echo "You have updated the table!";
+                        
 
                         //array_unique($studentArray);
                         /* $studentfilepath = '../files/students.csv';
@@ -70,9 +67,25 @@ include_once 'StudentClass.php';
                         file_put_contents('../files/students.csv', $studentcurrent);
  */
                         fclose($fp);
+                        
+
                     }
 
+
                 }
+                    if($studentArray != uniqueRows($studentArray)){
+                    $uniqueStudents = uniqueRows($studentArray);
+                    update($uniqueStudents, '../files/students.csv', 'w');
+                    //echo "Duplicate records have been removed!";
+                    }elseif($courseArray != uniqueRows($courseArray)){
+                    $uniqueCourses = uniqueRows($courseArray);
+                    update($uniqueCourses, '../files/courses.csv', 'w');
+                    }elseif($gradeArray != uniqueRows($gradeArray)){
+                    $uniqueGrades = uniqueRows($gradeArray);
+                    update($uniqueGrades, '../files/grades.csv', 'w');
+                    } else {
+                        echo "<p>No duplicate records found.</p>";
+                    }
     } 
 } 
 
@@ -99,6 +112,9 @@ function update($unique, $csvpath) {
 
     fclose($update);
 }
+
+
+
 
 
 

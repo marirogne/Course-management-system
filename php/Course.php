@@ -8,21 +8,21 @@
         private $name;
         private $year;
         private $semester;
-        private $credits;
         private $instructor;
-        private $studentsRegistered;
-        private $studentsPassed;
-        private $studentsFailed;
+        private $credits;
+        public $studentsRegistered;
+        public $studentsPassed;
+        public $studentsFailed;
         private $avgGrade;
 
 
-        function __construct($ccode, $name, $year, $semester, $credits, $instructor){
-            $this->ccode = $ccode;
+        function __construct($ccode, $name, $year, $semester, $instructor, $credits){
+            $this->setCcode($ccode);
             $this->name = $name;
             $this->year = $year;
             $this->setSemester($semester);
-            $this->setCredits($credits);
             $this->instructor = $instructor;
+            $this->setCredits($credits);
             $this->studentsRegistered = array();
             $this->studentsPassed = array();
             $this->studentsFailed = array();
@@ -35,11 +35,11 @@
                 <td>' . $this->name . '</td>
                 <td>' . $this->year . '</td>
                 <td>' . $this->semester . '</td>
-                <td>' . $this->credits . '</td>
                 <td>' . $this->instructor . '</td>
-                <td>' . count($this->studentsRegistered) . '</td>
-                <td>' . count($this->studentsPassed) . '</td>
-                <td>' . count($this->studentsFailed) . '</td>
+                <td>' . $this->credits . '</td>
+                <td>' . $this->studentsRegistered . '</td>
+                <td>' . $this->studentsPassed . '</td>
+                <td>' . $this->studentsFailed . '</td>
                 <td>' . array_sum($this->avgGrade)/count($this->avgGrade) . '</td>
            </tr>';
        }
@@ -81,26 +81,105 @@
         }
 
         function setSemester($semester){
-            //if($semester == "Fall" || $semester == "Spring" || $semester == "Summer"){
+            if($semester == "Fall" || $semester == "Spring" || $semester == "Summer"){
                 return $this->semester = $semester;
-            //} else {
-            //    echo "Semester is not valid.";
-            //}
+            } else {
+                echo "Semester is not valid.";
+            }
             
         }
 
         function setCredits($credits){
-            //if($credits == 5 || $credits == 7 || $credits == 10){
+            if($credits == 5 || $credits == 7 || $credits == 10){
                 return $this->credits = $credits;
-           // } else {
-           //     echo "Credits are not valid.";
-           // }
+           } else {
+                echo "Credits are not valid.";
+            }
         }
 
         function setInstructor ($instructor){
             return $this->instructor = $instructor;
         }
 
+
+
+        /* function registeredStudents($array){
+            $regStud = 0;
+            foreach($array as $students){
+                if($students[1] == $this->ccode){
+                    $regStud ++;    
+                }
+            
+            }
+            return $regStud;
+        } */
+
+        function registeredStudents($array){
+            $this->studentsRegistered = array();
+            foreach($array as $students){
+                if($students[1] == $this->ccode){
+                    array_push($this->studentsRegistered, $students);
+                    //$regStud ++;    
+                }
+            
+            }
+            return sizeof($this->studentsRegistered);
+        }
+
+        function checkGrade($grade){
+            switch ($grade) {
+                case 'A':
+                case 'B':
+                case 'C':
+                case 'D':
+                case 'E':
+                    return true;
+                    break;
+                case 'F':
+                    return false;
+                    break;
+            }
+        }
+
+        /* function studentsPassed($array){
+            $studPassed = 0;
+            foreach($array as $passed){
+                if($passed[1] == $this->ccode && checkGrade($passed[2]) == true){
+                        $studPassed ++;
+                }
+            }
+            return $studPassed;
+        } */
+        function studentsPassed($array){
+            $this->studentsPassed = array();
+            foreach($array as $passed){
+                if($passed[1] == $this->ccode && checkGrade($passed[2]) != true){
+                    array_push($this->studentsPassed, $passed);
+                }
+                
+            }
+            return sizeof($this->studentsPassed);
+        }
+
+        /* function studentsFailed($array){
+            $studFailed = 0;
+            foreach($array as $failed){
+                if($failed[1] == $this->ccode && checkGrade($failed[2]) == false){
+                        $studFailed ++;
+                }
+            }
+            return $studFailed;
+        } */
+        function studentsFailed($array){
+            $this->studentsFailed = array();
+            foreach($array as $failed){
+                if($failed[1] == $this->ccode && checkGrade($failed[2]) != true){
+                    array_push($this->studentsFailed, $failed);
+                }
+                
+            }
+            return sizeof($this->studentsFailed);
+        }
 
     }
 
