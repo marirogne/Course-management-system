@@ -13,7 +13,7 @@
         public $studentsRegistered;
         public $studentsPassed;
         public $studentsFailed;
-        private $avgGrade;
+        public $avgGrade;
 
 
         function __construct($ccode, $name, $year, $semester, $instructor, $credits){
@@ -153,7 +153,7 @@
         function studentsPassed($array){
             $this->studentsPassed = array();
             foreach($array as $passed){
-                if($passed[1] == $this->ccode && checkGrade($passed[2]) != true){
+                if($passed[1] == $this->ccode && checkGrade($passed[2]) == true){
                     array_push($this->studentsPassed, $passed);
                 }
                 
@@ -179,6 +179,37 @@
                 
             }
             return sizeof($this->studentsFailed);
+        }
+
+        function gradeToNumber($grade){
+            switch($grade) {
+                case 'A':
+                    return 5;
+                case 'B':
+                    return 4;
+                case 'C':
+                    return 3;
+                case 'D':
+                    return 2;
+                case 'E':
+                    return 1;
+                case 'F':
+                    return 0;
+            }
+        }
+
+        function avgGrade($array){
+            $this->avgGrade = array();
+            
+                if($array[1] == $this->ccode){
+                    strtoupper($array[2]);
+                    gradeToNumber($array[2]);
+                    array_push($this->avgGrade, $array[2]);
+                    
+                }
+            
+            return $this->avgGrade;
+            
         }
 
     }

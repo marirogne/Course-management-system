@@ -48,8 +48,10 @@
             $course->studentsRegistered = $course->registeredStudents($gradeArray);
             $course->studentsPassed = $course->studentsPassed($gradeArray);
             $course->studentsFailed = $course->studentsFailed($gradeArray);
+            $course->avgGrade = $course->avgGrade($gradeArray);
             $course->showCourseInfo();
         }
+        echo $course->avgGrade;
     }
     echo <<< _END
                 </tbody>
