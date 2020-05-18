@@ -38,7 +38,7 @@ include_once 'StudentClass.php';
                         foreach($lengthArray as $rows) {
                             array_push($studentArray, array($rows[0], $rows[1], $rows[2], (strtotime($rows[3]))));
                             array_push($courseArray, array($rows[4], $rows[5], $rows[6], $rows[7], $rows[8], $rows[9]));
-                            array_push($gradeArray, array($rows[0], $rows[4], $rows[10]));
+                            array_push($gradeArray, array($rows[0], $rows[4], $rows[9], $rows[10]));
                         }
                     
                 
@@ -73,20 +73,23 @@ include_once 'StudentClass.php';
 
 
                 }
+                
                 if($studentArray != uniqueRows($studentArray)){
                 $uniqueStudents = uniqueRows($studentArray);
                 update($uniqueStudents, '../files/students.csv', 'w+');
                 //echo "Duplicate records have been removed!";
                 }
+
                 if($courseArray != uniqueRows($courseArray)){
                 $uniqueCourses = uniqueRows($courseArray);
                 update($uniqueCourses, '../files/courses.csv', 'w+');
-                }elseif($gradeArray != uniqueRows($gradeArray)){
+                }
+
+                if($gradeArray != uniqueRows($gradeArray)){
                 $uniqueGrades = uniqueRows($gradeArray);
                 update($uniqueGrades, '../files/grades.csv', 'w+');
-                } else {
-                    echo "<p>No duplicate records found.</p>";
-                }
+                } 
+
     } 
 } 
 
@@ -112,6 +115,55 @@ function update($unique, $csvpath) {
     }
 
     fclose($update);
+}
+
+function checkGrade($grade){
+    switch ($grade) {
+        case 'A':
+        case 'B':
+        case 'C':
+        case 'D':
+        case 'E':
+            return true;
+            break;
+        case 'F':
+            return false;
+            break;
+    }
+}
+
+function gradeToNumber($grade){
+    switch($grade) {
+        case 'A':
+            return 5;
+        case 'B':
+            return 4;
+        case 'C':
+            return 3;
+        case 'D':
+            return 2;
+        case 'E':
+            return 1;
+        case 'F':
+            return 0;
+    }
+}
+
+function numberToGrade($grade){
+    switch($grade) {
+        case 5:
+            return 'A';
+        case 4:
+            return 'B';
+        case 3:
+            return 'C';
+        case 2:
+            return 'D';
+        case 1:
+            return 'E';
+        case 0:
+            return 'F';
+    }
 }
 
 

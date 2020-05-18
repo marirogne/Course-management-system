@@ -1,6 +1,7 @@
 <?php
     
     include_once '../html/nav.html';
+    include_once './data3.php';
 
     class Student {
         
@@ -8,9 +9,9 @@
         private $fname;
         private $lname;
         private $dob;
-        private $coursesPassed;
+        public $coursesPassed;
         private $creditsPassed;
-        private $coursesFailed;
+        public $coursesFailed;
         private $creditsFailed;
         private $gpa;
         private $status;
@@ -30,12 +31,12 @@
         
         function showStudentInfo(){
             echo '<tr>
-                <td>' . $this->getStudNo() . '</td>
+                <td>' . $this->studNo . '</td>
                 <td>' . $this->getFname() . '</td>
                 <td>' . $this->getLname() . '</td>
                 <td>' . $this->getDOB() . '</td>
-                <td>' . count($this->getCoursesPassed()) . '</td>
-                <td>' . count($this->getCoursesFailed()) . '</td>
+                <td>' . $this->coursesPassed . '</td>
+                <td>' . $this->coursesFailed . '</td>
                 <td>' . $this->getGPA() . '</td>
                 <td>' . $this->getStatus(2) . '</td>
            </tr>';
@@ -130,9 +131,9 @@
                 echo "Status not set.";
             } */
                 
-        }
+        
          //Function for checking whether the grade is a passed or a failed grade
-         function checkGrade($grade){
+         /* function checkGrade($grade){
             switch ($grade) {
                 case 'A':
                 case 'B':
@@ -142,17 +143,17 @@
                     return true;
                 case 'F':
                     return false;
-            }
+            } */
             /* if ($grade = 'A' || $grade = 'B' || $grade = 'C' || $grade = 'D' || $grade = 'E'){
                 return true;
             } else if ($grade = 'F'){
                 return false;
             } */
-        }
+        //}
 
         //Function for converting the letter-grade to the grade in number.
 
-        function gradeToNumber($grade){
+        /* function gradeToNumber($grade){
             switch($grade) {
                 case 'A':
                     return 5;
@@ -166,7 +167,7 @@
                     return 1;
                 case 'F':
                     return 0;
-            }
+            } */
             /* if ($grade='A'){
                 return 5;
             } else if ($grade='B'){
@@ -180,7 +181,7 @@
             } else if ($grade='F') {
                 return 0;
             } */
-        }
+        //}
 
 
         //Function for setting status on a student.
@@ -201,8 +202,34 @@
             }
         }
 
-       
+        function coursesPassed($array){
+            $this->coursesPassed = array();
+            foreach($array as $passed){
+                if($passed[0] == $this->studNo && checkGrade($passed[3]) == true){
+                    array_push($this->coursesPassed, $passed);
+                }
+                
+            }
+            return sizeof($this->coursesPassed);
+        }
 
+        function coursesFailed($array){
+            $this->coursesFailed = array();
+            foreach($array as $failed){
+                if($failed[0] == $this->studNo && checkGrade($failed[3]) == false){
+                    array_push($this->coursesFailed, $failed);
+                }
+                
+            }
+            return sizeof($this->coursesFailed);
+        }
+       
+        function calculateGPA($array){
+
+        }
+
+
+    }
     
 
     

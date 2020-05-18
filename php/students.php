@@ -29,17 +29,27 @@
     $cData->readCSV('../files/update.csv');
     //$newStudent->showStudentInfo(); */
     $studArray = array();
+    $gradeArray = array();
    
     if (($fp = fopen('../files/students.csv', 'r')) !== FALSE) {
         while (($data = fgetcsv($fp, 1000, ",")) !== FALSE) {
             $studArray[] = $data;
             //$row ++;
         }
+
+        if (($grade = fopen('../files/grades.csv', 'r')) !== FALSE) {
+            while (($gradedata = fgetcsv($grade, 1000, ",")) !== FALSE) {
+                $gradeArray[] = $gradedata;
+                //$row ++;
+            }
+        }
         $count = count($studArray);
         echo "<p>There are <b>$count</b> students registered.</p>";
         foreach($studArray as $row){
             $student = new Student($row[0], $row[1], $row[2], date('d-m-Y', $row[3]));
-                            $student->showStudentInfo();
+            $student->coursesPassed = $student->coursesPassed($gradeArray);
+            $student->coursesFailed = $student->coursesFailed($gradeArray);
+            $student->showStudentInfo();
         }
         
         

@@ -1,6 +1,7 @@
 <?php
 
     include_once '../html/nav.html';
+    include_once './data3.php';
 
     class Course {
 
@@ -126,20 +127,20 @@
             return sizeof($this->studentsRegistered);
         }
 
-        function checkGrade($grade){
+        /* function checkGrade($grade){
             switch ($grade) {
-                case ' A':
-                case ' B':
-                case ' C':
-                case ' D':
-                case ' E':
+                case 'A':
+                case 'B':
+                case 'C':
+                case 'D':
+                case 'E':
                     return true;
                     break;
-                case ' F':
+                case 'F':
                     return false;
                     break;
             }
-        }
+        } */
 
         /* function studentsPassed($array){
             $studPassed = 0;
@@ -153,7 +154,7 @@
         function studentsPassed($array){
             $this->studentsPassed = array();
             foreach($array as $passed){
-                if($passed[1] == $this->ccode && checkGrade($passed[2]) == true){
+                if($passed[1] == $this->ccode && checkGrade($passed[3]) == true){
                     array_push($this->studentsPassed, $passed);
                 }
                 
@@ -173,7 +174,7 @@
         function studentsFailed($array){
             $this->studentsFailed = array();
             foreach($array as $failed){
-                if($failed[1] == $this->ccode && checkGrade($failed[2]) == false){
+                if($failed[1] == $this->ccode && checkGrade($failed[3]) == false){
                     array_push($this->studentsFailed, $failed);
                 }
                 
@@ -181,7 +182,7 @@
             return sizeof($this->studentsFailed);
         }
 
-        function gradeToNumber($grade){
+        /* function gradeToNumber($grade){
             switch($grade) {
                 case 'A':
                     return 5;
@@ -213,15 +214,18 @@
                 case 0:
                     return 'F';
             }
-        }
+        } */
 
         function avgGrade($array){
             $this->avgGrade = array();
+            $ag = 0;
                 foreach($array as $avg){
                     if($avg[1] == $this->ccode){
-                        strtoupper($avg[2]);
-                        gradeToNumber($avg[2]);
-                        array_push($this->avgGrade, $avg[2]);                    
+                        
+                        strtoupper($avg[3]);
+                        gradeToNumber($avg[3]);
+                        $avg[3] = intval($avg[3]);
+                        array_push($this->avgGrade, $avg[3]);                    
                     }
                 }
             $avg = array_sum($this->avgGrade);
