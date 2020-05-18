@@ -51,8 +51,11 @@
             $course->avgGrade = $course->avgGrade($gradeArray);
             $course->showCourseInfo();
         }
-        echo $course->avgGrade;
+        //fclose($grade);
+        //fclose($course);
+        
     }
+    
     echo <<< _END
                 </tbody>
             </table>

@@ -73,19 +73,20 @@ include_once 'StudentClass.php';
 
 
                 }
-                    if($studentArray != uniqueRows($studentArray)){
-                    $uniqueStudents = uniqueRows($studentArray);
-                    update($uniqueStudents, '../files/students.csv', 'w');
-                    //echo "Duplicate records have been removed!";
-                    }elseif($courseArray != uniqueRows($courseArray)){
-                    $uniqueCourses = uniqueRows($courseArray);
-                    update($uniqueCourses, '../files/courses.csv', 'w');
-                    }elseif($gradeArray != uniqueRows($gradeArray)){
-                    $uniqueGrades = uniqueRows($gradeArray);
-                    update($uniqueGrades, '../files/grades.csv', 'w');
-                    } else {
-                        echo "<p>No duplicate records found.</p>";
-                    }
+                if($studentArray != uniqueRows($studentArray)){
+                $uniqueStudents = uniqueRows($studentArray);
+                update($uniqueStudents, '../files/students.csv', 'w+');
+                //echo "Duplicate records have been removed!";
+                }
+                if($courseArray != uniqueRows($courseArray)){
+                $uniqueCourses = uniqueRows($courseArray);
+                update($uniqueCourses, '../files/courses.csv', 'w+');
+                }elseif($gradeArray != uniqueRows($gradeArray)){
+                $uniqueGrades = uniqueRows($gradeArray);
+                update($uniqueGrades, '../files/grades.csv', 'w+');
+                } else {
+                    echo "<p>No duplicate records found.</p>";
+                }
     } 
 } 
 

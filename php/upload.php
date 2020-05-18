@@ -35,7 +35,9 @@
 
     /* $update = new Data('../files/update.csv');
     echo $update->csvToArray('../files/students.csv'); */
- 
+
+
     
 
+    echo gradeToNumber('C');
 ?>
