@@ -5,6 +5,7 @@
     
     
 
+    //Adding some iformation on the upload page
     echo <<< _END
     <div class ="content">
         <p>On this page you will be allowed to upload a file to update the tables. Only CSV-files are allowed. Please give the following information:</p>
@@ -25,6 +26,7 @@
 
     //require_once 'Data.php';
 
+    //Adding the form for uploading new information
     echo <<< _END
             <form method='post' action='upload.php' enctype='multipart/form-data'>
                 Select file: <input type = 'file' name = 'filename' size = '10'>
@@ -37,7 +39,4 @@
     echo $update->csvToArray('../files/students.csv'); */
 
 
-    
-
-    echo gradeToNumber('C');
 ?>

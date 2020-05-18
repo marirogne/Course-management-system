@@ -202,26 +202,28 @@
             }
         }
 
+        //function for finding the number of passed students in a course
         function coursesPassed($array){
-            $this->coursesPassed = array();
+            $this->coursesPassed = array(); //Preparing the studentsPassed array
             foreach($array as $passed){
-                if($passed[0] == $this->studNo && checkGrade($passed[3]) == true){
-                    array_push($this->coursesPassed, $passed);
+                if($passed[0] == $this->studNo && checkGrade($passed[3]) == true){ //If the course code is the one of the object and if the grade is between A and E
+                    array_push($this->coursesPassed, $passed); //Push the line in the new array
                 }
                 
             }
             return sizeof($this->coursesPassed);
         }
 
+        //function for finding the number of failed students in a course
         function coursesFailed($array){
             $this->coursesFailed = array();
             foreach($array as $failed){
-                if($failed[0] == $this->studNo && checkGrade($failed[3]) == false){
-                    array_push($this->coursesFailed, $failed);
+                if($failed[0] == $this->studNo && checkGrade($failed[3]) == false){ //If the course code is the one of the object and if the grade is F
+                    array_push($this->coursesFailed, $failed); //Push the line in the new array
                 }
                 
             }
-            return sizeof($this->coursesFailed);
+            return sizeof($this->coursesFailed); //return the number of rows in the new array
         }
        
         function calculateGPA($array){

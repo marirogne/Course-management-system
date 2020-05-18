@@ -45,6 +45,8 @@
            </tr>';
        }
 
+       //get-functions
+
         function getCcode(){
             return $this->ccode;
         }
@@ -69,6 +71,9 @@
             return $this->instructor;
         }
 
+
+        //Set functions
+
         function setCcode($ccode){
             return $this->ccode = $ccode;
         }
@@ -81,6 +86,7 @@
             return $this->year = $year;
         }
 
+        //Declaring which values are acceptable for the semester
         function setSemester($semester){
             if($semester == "Fall" || $semester == "Spring" || $semester == "Summer"){
                 return $this->semester = $semester;
@@ -90,6 +96,7 @@
             
         }
 
+        //Declaring which values are acceptable for credits
         function setCredits($credits){
             if($credits == 5 || $credits == 7 || $credits == 10){
                 return $this->credits = $credits;
@@ -115,6 +122,7 @@
             return $regStud;
         } */
 
+        //function for finding the number of registered students in a course
         function registeredStudents($array){
             $this->studentsRegistered = array();
             foreach($array as $students){
@@ -151,15 +159,17 @@
             }
             return $studPassed;
         } */
+
+        //function for finding the number of passed students in a course
         function studentsPassed($array){
-            $this->studentsPassed = array();
+            $this->studentsPassed = array(); //Preparing the studentsPassed array
             foreach($array as $passed){
-                if($passed[1] == $this->ccode && checkGrade($passed[3]) == true){
-                    array_push($this->studentsPassed, $passed);
+                if($passed[1] == $this->ccode && checkGrade($passed[3]) == true){ //If the course code is the one of the object and if the grade is between A and E
+                    array_push($this->studentsPassed, $passed); //Push the line in the new array
                 }
                 
             }
-            return sizeof($this->studentsPassed);
+            return sizeof($this->studentsPassed); //return the number of rows in the new array
         }
 
         /* function studentsFailed($array){
@@ -171,15 +181,17 @@
             }
             return $studFailed;
         } */
+
+        //function for finding the number of failed students in a course
         function studentsFailed($array){
             $this->studentsFailed = array();
             foreach($array as $failed){
-                if($failed[1] == $this->ccode && checkGrade($failed[3]) == false){
-                    array_push($this->studentsFailed, $failed);
+                if($failed[1] == $this->ccode && checkGrade($failed[3]) == false){ //If the course code is the one of the object and if the grade is F
+                    array_push($this->studentsFailed, $failed); //Push the line in the new array
                 }
                 
             }
-            return sizeof($this->studentsFailed);
+            return sizeof($this->studentsFailed); //return the number of rows in the new array
         }
 
         /* function gradeToNumber($grade){
@@ -216,6 +228,8 @@
             }
         } */
 
+
+        //Function for calculating the average grade in a course
         function avgGrade($array){
             $this->avgGrade = array();
             $ag = 0;
