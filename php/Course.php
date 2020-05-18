@@ -224,8 +224,9 @@
                         array_push($this->avgGrade, $avg[2]);                    
                     }
                 }
-            //$avg = array_sum($this->avgGrade);
-           $avg = sizeof($this->avgGrade);
+            $avg = array_sum($this->avgGrade);
+            //$avg = sizeof($this->avgGrade);
+            
             return $avg;
             
         }
