@@ -13,8 +13,8 @@
         private $creditsPassed;
         public $coursesFailed;
         private $creditsFailed;
-        private $gpa;
-        private $status;
+        public $gpa;
+        public $status;
 
 
         function __construct($studNo, $fname, $lname, $dob){
@@ -226,8 +226,41 @@
             return sizeof($this->coursesFailed); //return the number of rows in the new array
         }
        
-        function calculateGPA($array){
-
+        function calculateGPA($array) {
+            $tempCredit = 0;
+            //$pointPerCourse = array();
+            $point = 0;
+            $mulCredit = 0;
+            $gradeCredit = 0;
+            $gradeCreditSum = 0;
+            $gpa = 0;
+    
+            $grades = ["F", "E", "D", "C", "B", "A"];
+            
+            // GET ACCUMULATED CREDIT OF STUDENT
+            foreach ($array as $credits) {
+                if ($credits[0] == $this->studNo) {
+                    $mulCredit += $credits[2];
+                }
+            }
+    
+            // FIND SUM COURSE_CREDIT MULTIPLIED WITH GRADE
+            foreach ($array as $stud) {
+                if ($stud[0] == $this->studNo) {
+                    $stud[3] = strtoupper($stud[3]);
+                    // FIND POINT BY GETTING KEY FROM GRADES ARRAY
+                    $point = array_search($stud[3], $grades);
+                    $tempCredit = $stud[2];
+                    $gradeCredit = $point*$tempCredit;
+                    array_push($this->creditsPassed, $gradeCredit);
+                }
+            }
+            $gradeCreditSum = array_sum($this->creditsPassed);
+            // CALCULATE sum(course_credit x grade) / sum(credits_taken).
+            $gpa = $gradeCreditSum / $mulCredit;
+            //$gpa = round($gpa, 2);
+            // RETURN GPA
+            return $gpa;
         }
 
 

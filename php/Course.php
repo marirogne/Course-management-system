@@ -124,7 +124,7 @@
 
         //function for finding the number of registered students in a course
         function registeredStudents($array){
-            $this->studentsRegistered = array();
+            //$this->studentsRegistered = array();
             foreach($array as $students){
                 if($students[1] == $this->ccode){
                     array_push($this->studentsRegistered, $students);
@@ -162,7 +162,7 @@
 
         //function for finding the number of passed students in a course
         function studentsPassed($array){
-            $this->studentsPassed = array(); //Preparing the studentsPassed array
+            //$this->studentsPassed = array(); //Preparing the studentsPassed array
             foreach($array as $passed){
                 if($passed[1] == $this->ccode && checkGrade($passed[3]) == true){ //If the course code is the one of the object and if the grade is between A and E
                     array_push($this->studentsPassed, $passed); //Push the line in the new array
@@ -184,7 +184,7 @@
 
         //function for finding the number of failed students in a course
         function studentsFailed($array){
-            $this->studentsFailed = array();
+            //$this->studentsFailed = array();
             foreach($array as $failed){
                 if($failed[1] == $this->ccode && checkGrade($failed[3]) == false){ //If the course code is the one of the object and if the grade is F
                     array_push($this->studentsFailed, $failed); //Push the line in the new array
@@ -231,25 +231,36 @@
 
         //Function for calculating the average grade in a course
         function avgGrade($array){
-            $this->avgGrade = array();
-            $ag = 0;
-                foreach($array as $avg){
-                    if($avg[1] == $this->ccode){
+            $grades = ['F', 'E', 'D', 'C', 'B', 'A'];
+            //$this->avgGrade = array();
+            $tempSum = 0;
+            $tempCount = 0;
+            $avg = '';
+                foreach($array as $row){
+                    if($row[1] == $this->ccode){
                         
-                        strtoupper($avg[3]);
-                        gradeToNumber($avg[3]);
-                        $avg[3] = intval($avg[3]);
-                        array_push($this->avgGrade, $avg[3]);                    
+                        strtoupper($row[3]);
+                        //gradeToNumber($avg[3]);
+                        //$avg[3] = intval($avg[3]);
+                        //$ag += $avg[3];
+                        $point = array_search($row[3], $grades);
+                        array_push($this->avgGrade, $point);                    
                     }
                 }
-            $avg = array_sum($this->avgGrade);
+                if(count($this->avgGrade)){
+                    $tempSum = array_sum($this->avgGrade);
+                    $tempCount = count($this->avgGrade);
+
+                    $gradeTemp = array_filter($this->avgGrade);
+                    $average = $tempSum / $tempCount;
+                }
+                $avg = $grades[round($average)];
+            //$avg = $this->avgGrade;
             //$avg = sizeof($this->avgGrade);
             
             return $avg;
             
         }
-
-
 
 
     } 

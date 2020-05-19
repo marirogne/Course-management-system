@@ -33,7 +33,7 @@
     
     $studArray = array(); //Preparing a student array
     $gradeArray = array(); //Preparing a grade array
-   
+    $objectArray = array(); //Preparing an array for all the objects
 
     //Find the data from the stundets.csv file and place it in the student array
     if (($fp = fopen('../files/students.csv', 'r')) !== FALSE) {
@@ -57,7 +57,10 @@
             $student = new Student($row[0], $row[1], $row[2], date('d-m-Y', $row[3])); //Create a new object
             $student->coursesPassed = $student->coursesPassed($gradeArray); //Find the number of passed courses a students have
             $student->coursesFailed = $student->coursesFailed($gradeArray); //Find the number of failed courses a students have
-            $student->showStudentInfo(); //Display the student info in the table
+            $student->gpa = $student->calculateGPA($gradeArray);
+            $student->status = $student->setStatus($student->gpa);
+            array_push($objectArray, $student);
+            //$student->showStudentInfo(); //Display the student info in the table
         }
         
         
@@ -65,6 +68,14 @@
         fclose($fp); //Close the link to the students csv-file.
     }
     
+    function sortStudents($a, $b) {
+        if($a->gpa == $b->gpa){ 
+            return 0 ; 
+        }
+        return ($a->gpa > $b->gpa) ? -1 : 1;
+    }
+
+    usort($objectArray, 'sortStudents');
 
    /*  function removeDuplicates($array){
         $array = array_map("unserialize", array_unique(array_map("serialize", $array)));
@@ -72,6 +83,9 @@
         return $array;
     } */
 
+    foreach($objectArray as $object){
+        $object->showStudentInfo();
+    }
 
     //Finish the table structure in HTML          
     echo <<< _END
