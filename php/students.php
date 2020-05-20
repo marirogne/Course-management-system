@@ -49,9 +49,6 @@
             }
         }
        
-        $count = count($studArray); //Count the number of rows int the student array
-        echo "<p>There are <b>$count</b> students registered.</p>"; //Display the number of students in the array
-        
         //Go through each line in the student array row
         foreach($studArray as $row){
             $student = new Student($row[0], $row[1], $row[2], date('d-m-Y', $row[3])); //Create a new object
@@ -63,26 +60,33 @@
             //$student->showStudentInfo(); //Display the student info in the table
         }
         
-        
+         
 
         fclose($fp); //Close the link to the students csv-file.
     }
     
-    function sortStudents($a, $b) {
+    /* function sortStudents($a, $b) {
         if($a->gpa == $b->gpa){ 
             return 0 ; 
         }
         return ($a->gpa > $b->gpa) ? -1 : 1;
-    }
-
+    } */
+    $objectArray = validateStudentArray($objectArray);
     usort($objectArray, 'sortStudents');
+    
+
+   
 
    /*  function removeDuplicates($array){
         $array = array_map("unserialize", array_unique(array_map("serialize", $array)));
         $array = array_values($array);
         return $array;
     } */
+    //$objectArray = validateStudentArray($objectArray);
 
+    $count = count($objectArray); //Count the number of rows int the student array
+        echo "<p>There are <b>$count</b> students registered.</p>"; //Display the number of students in the array
+        
     foreach($objectArray as $object){
         $object->showStudentInfo();
     }

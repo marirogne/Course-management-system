@@ -42,14 +42,16 @@ include_once 'StudentClass.php';
                             array_push($gradeArray, array($rows[0], $rows[4], $rows[9], $rows[10])); //Place the rows 0, 4, 9, and 10 in the grade array
                         }
                     
-                
+                        $studentArray = uniqueRows($studentArray);
+                        $courseArray = uniqueRows($courseArray);
+                        $gradeArray = uniqueRows($gradeArray);
+                        
                         $openstudents = fopen('../files/students.csv', 'a+'); //Open the students.csv file and allow for preserving the content and write to bottom
                         $opencourses = fopen('../files/courses.csv', 'a+'); //Open the courses.csv file and allow for preserving the content and write to bottom
                         $opengrades = fopen('../files/grades.csv', 'a+'); //Open the grades.csv file and allow for preserving the content and write to bottom
                         
                         foreach($studentArray as $row){
                             fputcsv($openstudents, $row); //take the studentarray and put the content into the student.csv file
-                            
                         }
                         foreach($courseArray as $row){
                             fputcsv($opencourses, $row); //take the coursearray and put the content into the courses.csv file
@@ -75,7 +77,7 @@ include_once 'StudentClass.php';
 
                 }
 
-                //Checking if the rows are unique ???? HELP HELP
+                /* //Checking if the rows are unique ???? HELP HELP
                 if($studentArray != uniqueRows($studentArray)){
                 $uniqueStudents = uniqueRows($studentArray);
                 update($uniqueStudents, '../files/students.csv', 'w+');
@@ -90,7 +92,7 @@ include_once 'StudentClass.php';
                 if($gradeArray != uniqueRows($gradeArray)){
                 $uniqueGrades = uniqueRows($gradeArray);
                 update($uniqueGrades, '../files/grades.csv', 'w+');
-                } 
+                }  */
 
     } 
 } 
@@ -110,16 +112,7 @@ function uniqueRows($array) {
     return $array;
 }
 
-//Function for updating the rows
-function update($unique, $csvpath) {
-    $update = fopen($csvpath, 'w+'); //Open csv file and allow to write
 
-    foreach($unique as $rows) {
-        fputcsv($update, $rows); //Put the updated input in the csv file
-    }
-
-    fclose($update); //close connection
-}
 
 
 //Function for checking if a grade is pass or fail
@@ -138,45 +131,53 @@ function checkGrade($grade){
     }
 }
 
-//Function for converting a grade into the equal number
-function gradeToNumber($grade){
-    switch($grade) {
-        case 'A':
-            return 5;
-        case 'B':
-            return 4;
-        case 'C':
-            return 3;
-        case 'D':
-            return 2;
-        case 'E':
+function sortStudents($a, $b) {
+    if($a->gpa == $b->gpa){ 
+        return 0 ; 
+    }
+    return ($a->gpa > $b->gpa) ? -1 : 1;
+}
+    //Tutorial from https://davidwalsh.name/sort-objects
+    function sortCourses($a, $b) {
+        if($a->studentsRegistered == $b->studentsRegistered){ 
+            return 0 ; 
+        }
+        if($a->studentsRegistered < $b->studentsRegistered){
+            return -1;
+        } else {
             return 1;
-        case 'F':
-            return 0;
+        }
+        //return ($a->studentsRegistered < $b->studentsRegistered) ? -1 : 1;
     }
-}
 
-//Function for converting a number into the equal grade
-function numberToGrade($grade){
-    switch($grade) {
-        case 5:
-            return 'A';
-        case 4:
-            return 'B';
-        case 3:
-            return 'C';
-        case 2:
-            return 'D';
-        case 1:
-            return 'E';
-        case 0:
-            return 'F';
+
+    function validateStudentArray($array) {
+        $temp_array = array();
+        $i = 0;
+        $key_array = array();
+       
+        foreach($array as $val) {
+             if (!in_array($val->studNo, $key_array)) {
+                $key_array[$i] = $val->studNo;
+                $temp_array[$i] = $val;
+            }
+            $i++; 
+        }
+        return $temp_array;
+        $update = fopen('../files/students.csv', 'a+');
+        fputcsv($update, $temp_array);
+    } 
+
+//Function for updating the rows
+/* function update($unique, $csvpath) {
+    $update = fopen($csvpath, 'w+'); //Open csv file and allow to write
+
+    foreach($unique as $rows) {
+        fputcsv($update, $rows); //Put the updated input in the csv file
     }
-}
 
-
-
-
+    fclose($update); //close connection
+} */
 
 
 ?>

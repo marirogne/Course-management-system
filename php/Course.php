@@ -93,7 +93,6 @@
             } else {
                 echo "Semester is not valid.";
             }
-            
         }
 
         //Declaring which values are acceptable for credits

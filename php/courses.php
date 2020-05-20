@@ -94,13 +94,18 @@
     } */
 
 
-    //Tutorial from https://davidwalsh.name/sort-objects
+/*     //Tutorial from https://davidwalsh.name/sort-objects
     function sortCourses($a, $b) {
         if($a->studentsRegistered == $b->studentsRegistered){ 
             return 0 ; 
         }
-        return ($a->studentsRegistered < $b->studentsRegistered) ? -1 : 1;
-    }
+        if($a->studentsRegistered < $b->studentsRegistered){
+            return -1;
+        } else {
+            return 1;
+        }
+        //return ($a->studentsRegistered < $b->studentsRegistered) ? -1 : 1;
+    } */
 
     //Usort = sorting an array through a user-defined comparison function
     usort($objectArray, 'sortCourses'); //Sort the table by using the sortCourses function
@@ -108,6 +113,24 @@
     // sort alphabetically by name
     //asort($objectArray, 'compare_lastname');
     //sort($objectArray[6]);
+
+
+    /* function validateStudentArray($array) {
+        $temp_array = array();
+        $i = 0;
+        $key_array = array();
+       
+        foreach($array as $val) {
+             if (!in_array($val->studNo, $key_array)) {
+                $key_array[$i] = $val->studNo;
+                $temp_array[$i] = $val;
+            }
+            $i++; 
+        }
+        return $temp_array;
+    } 
+
+    $objectArray = validateStudentArray($objectArray); */
 
     foreach($objectArray as $object){
         $object->showCourseInfo();
