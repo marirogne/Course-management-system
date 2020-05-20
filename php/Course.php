@@ -232,13 +232,13 @@
         function avgGrade($array){
             $grades = ['F', 'E', 'D', 'C', 'B', 'A'];
             //$this->avgGrade = array();
-            $tempSum = 0;
-            $tempCount = 0;
-            $avg = '';
+            //$tempSum = 0;
+            //$tempCount = 0;
+            //$avg = '';
                 foreach($array as $row){
                     if($row[1] == $this->ccode){
                         
-                        strtoupper($row[3]);
+                        //strtoupper($row[3]);
                         //gradeToNumber($avg[3]);
                         //$avg[3] = intval($avg[3]);
                         //$ag += $avg[3];

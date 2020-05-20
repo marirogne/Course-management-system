@@ -5,7 +5,7 @@
 
     class Student {
         
-        private $studNo;
+        public $studNo;
         private $fname;
         private $lname;
         private $dob;

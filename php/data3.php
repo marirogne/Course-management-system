@@ -157,7 +157,7 @@ function sortStudents($a, $b) {
         $key_array = array();
        
         foreach($array as $val) {
-             if (!in_array($val->getstudNo(), $key_array)) {
+             if (!in_array($val->studNo, $key_array)) {
                 $key_array[$i] = $val->studNo;
                 $temp_array[$i] = $val;
             }
