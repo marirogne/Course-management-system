@@ -30,67 +30,79 @@
     $cData->readCSV('../files/update.csv');
     //$newStudent->showStudentInfo(); */
     
-    
-    $studArray = array(); //Preparing a student array
-    $gradeArray = array(); //Preparing a grade array
-    $objectArray = array(); //Preparing an array for all the objects
+    //function studentToObject(){
+        $studArray = array(); //Preparing a student array
+        $gradeArray = array(); //Preparing a grade array
+        $objectArray = array(); //Preparing an array for all the objects
 
-    //Find the data from the stundets.csv file and place it in the student array
-    if (($fp = fopen('../files/students.csv', 'r')) !== FALSE) {
-        while (($data = fgetcsv($fp, 1000, ",")) !== FALSE) {
-            $studArray[] = $data;
-            //$row ++;
-        }
-        //Find the data from the grades.csv file and place it in the grade array
-        if (($grade = fopen('../files/grades.csv', 'r')) !== FALSE) {
-            while (($gradedata = fgetcsv($grade, 1000, ",")) !== FALSE) {
-                $gradeArray[] = $gradedata;
+        //Find the data from the stundets.csv file and place it in the student array
+        if (($fp = fopen('../files/students.csv', 'r')) !== FALSE) {
+            while (($data = fgetcsv($fp, 1000, ",")) !== FALSE) {
+                $studArray[] = $data;
+                //$studArray = validate($studArray);
                 //$row ++;
             }
-        }
-       
-        //Go through each line in the student array row
-        foreach($studArray as $row){
-            $student = new Student($row[0], $row[1], $row[2], date('d-m-Y', $row[3])); //Create a new object
-            $student->coursesPassed = $student->coursesPassed($gradeArray); //Find the number of passed courses a students have
-            $student->coursesFailed = $student->coursesFailed($gradeArray); //Find the number of failed courses a students have
-            $student->gpa = $student->calculateGPA($gradeArray);
-            $student->status = $student->setStatus($student->gpa);
-            array_push($objectArray, $student);
-            //$student->showStudentInfo(); //Display the student info in the table
+            
+            //Find the data from the grades.csv file and place it in the grade array
+            if (($grade = fopen('../files/grades.csv', 'r')) !== FALSE) {
+                while (($gradedata = fgetcsv($grade, 1000, ",")) !== FALSE) {
+                    $gradeArray[] = $gradedata;
+                    //$row ++;
+                }
+            }
+            //$studArray = array_unique($studArray);
+            //update($studArray, '../files/students.csv');
+
+            /* $studArray = uniqueRows($studArray);
+            $studArray = validateStudentArray($studArray); */
+            
+
+            //Go through each line in the student array row
+            foreach($studArray as $row){
+                $student = new Student($row[0], $row[1], $row[2], date('d-m-Y', $row[3])); //Create a new object
+                $student->coursesPassed = $student->coursesPassed($gradeArray); //Find the number of passed courses a students have
+                $student->coursesFailed = $student->coursesFailed($gradeArray); //Find the number of failed courses a students have
+                $student->gpa = $student->calculateGPA($gradeArray);
+                $student->status = $student->setStatus($student->gpa);
+                array_push($objectArray, $student);
+                //$student->showStudentInfo(); //Display the student info in the table
+            }
+            
+            //$objectArray = validateStudentArray($objectArray);
+            fclose($fp); //Close the link to the students csv-file.
         }
         
-         
-
-        fclose($fp); //Close the link to the students csv-file.
-    }
-    
-    /* function sortStudents($a, $b) {
-        if($a->gpa == $b->gpa){ 
-            return 0 ; 
-        }
-        return ($a->gpa > $b->gpa) ? -1 : 1;
-    } */
-    $objectArray = validateStudentArray($objectArray);
-    usort($objectArray, 'sortStudents');
-    
-
-   
-
-   /*  function removeDuplicates($array){
-        $array = array_map("unserialize", array_unique(array_map("serialize", $array)));
-        $array = array_values($array);
-        return $array;
-    } */
-    //$objectArray = validateStudentArray($objectArray);
-
-    $count = count($objectArray); //Count the number of rows int the student array
-        echo "<p>There are <b>$count</b> students registered.</p>"; //Display the number of students in the array
+        /* function sortStudents($a, $b) {
+            if($a->gpa == $b->gpa){ 
+                return 0 ; 
+            }
+            return ($a->gpa > $b->gpa) ? -1 : 1;
+        } */
         
-    foreach($objectArray as $object){
-        $object->showStudentInfo();
-    }
+        usort($objectArray, 'sortStudents');
+        
 
+        //$objectArray = uniqueRows($objectArray);
+
+        
+
+        //update($objectArray, '../files/students.csv');
+
+    /*  function removeDuplicates($array){
+            $array = array_map("unserialize", array_unique(array_map("serialize", $array)));
+            $array = array_values($array);
+            return $array;
+        } */
+        //$objectArray = validateStudentArray($objectArray);
+
+        $count = count($objectArray); //Count the number of rows int the student array
+            echo "<p>There are <b>$count</b> students registered.</p>"; //Display the number of students in the array
+            
+        foreach($objectArray as $object){
+            $object->showStudentInfo();
+        }
+    //}
+    //echo studentToObject();
     //Finish the table structure in HTML          
     echo <<< _END
                 </tbody>
@@ -99,6 +111,28 @@
 
     _END;
 
+    /* function validate($array) {
+        $temp_array = array();
+        $i = 0;
+        $key_array = array();
+       
+        foreach($array as $val) {
+             if (!in_array($val[0], $key_array)) {
+                $key_array[$i] = $val[0];
+                $temp_array[$i] = $val;
+            }
+            $i++; 
+        }
+        return $temp_array;
+        if (($fp = fopen('../files/students.csv', 'r')) !== FALSE) {
+            
+       // $update = fopen('../files/students.csv', 'r+');
+        foreach($temp_array as $array){
+            fputcsv($fp, $array);
+        }
+        }
+        fclose($fp);
+    }  */
     
 
 ?>
