@@ -1,232 +1,217 @@
 <?php
 
-    require_once 'StudentClass.php';
-    require_once 'Course.php';
-    
+//Include class files
+include_once 'classes/CourseClass.php';
+include_once 'classes/StudentClass.php';
 
-    class Data{
 
-        private $sArray;
-        private $cArray;
-
-        function __construct($files){
-            $this->sArray = array();
-            $this->cArray = array();
-            $this->readCSV($files);
-        }
-
+//function csvToArray($filesName){
+if(isset($_POST['upload'])){ //If the upload-button is pushed
+    if(isset($_FILES['filename'])) {
         
-        /* if(isset($_POST['upload'])){
-            if(isset($_FILES['filename'])){
+        $fname = $_FILES["filename"]["name"]; //Decalte filename
+        $ftemp = $_FILES["filename"]["tmp_name"]; //Declare temporary name USIKKE PÅ DENNE HALLOO=???
+        $extension = pathinfo($fname, PATHINFO_EXTENSION);
+        if ($extension != 'csv'){ //If the file is not a CSV-file
+            $response = array(
+                "Type" => "Error: ",
+                "Message" => "NB!!! Only CSV-files are allowed!<br> <br>"
 
-            }
-        } */
-
-
-        //Function for updating the CSV-file when a user uploads a new file
-        function csvToArray($filesName){
-            if(isset($_FILES['filename'])) {
+            );
+            echo implode($response); //Display the error message
+        } else {
+            $lengthArray = array(); //Prepare an array for the uploaded csv-file
+            $row = 1; //Define the row
+            if (($fp = fopen($ftemp, "r")) !== FALSE) {
+                while (($data = fgetcsv($fp, 5000, ",")) !== FALSE) {
+                    $lengthArray[] = $data; //get the information in the upload CSV file and place it in the lengthArray
+                    $row ++; //Increase the row
+                }
                 
-                $fname = $_FILES["filename"]["name"];
-                $ftemp = $_FILES["filename"]["tmp_name"];
-                $extension = pathinfo($fname, PATHINFO_EXTENSION);
-                        if ($extension != 'csv'){
-                            $response = array(
-                                "Type" => "Error: ",
-                                "Message" => "NB!!! Only CSV-files are allowed!<br> <br>"
-
-                            );
-                            echo implode($response);
-                        } else {
-                             $lengthArray = array();
-                            $row = 1;
-                            if (($fp = fopen($_FILES["filename"]["tmp_name"], "r")) !== FALSE) {
-                                while (($data = fgetcsv($fp, 1000, ",")) !== FALSE) {
-                                    $lengthArray[] = $data;
-                                    $row ++;
-                                }
-
-
-                                $studArr = array();
-                                $studCsv = studArrayFromFile('../files/students.csv');
-                                if (count($studCsv) != 0) {
-                                    foreach($studCsv as &$cStud) {
-                                        array_push($studArr, $cStud);
-                                    }
-                                }
-                                foreach($arr as &$stud) {
-                                    array_push($studArr, array($stud[0], $stud[1], $stud[2], $stud[3]));
-                                }
-                                return $studArr;
-                                /* if (count($studArr) == 1) {
-                                    $response = array (
-                                        "type" => "Success: ",
-                                        "message" => "File validation success."
-                                    );  */
-                                 $filepath = '../files/students.csv';
-                                $current = file_get_contents($filepath);
-                                $current .= "\n" . file_get_contents($studArr);
-    
-                                file_put_contents('../files/students.csv', $current)
-                                fclose($fp);
-                            }
-
-
-
-                            $lengthArray = array_unique($lengthArray);
-                            if (count($lengthArray) == 1) {
-                                $response = array (
-                                    "type" => "Success: ",
-                                    "message" => "File validation success."
-                                ); 
-                             $filepath = '../files/update.csv';
-                            $current = file_get_contents($filepath);
-                            $current .= "\n" . file_get_contents($ftemp);
-
-                            file_put_contents('../files/update.csv', $current);
-                            echo "Hooray, you have updated the table!<br>";
-                             } else {
-                                $response = array(
-                                    "type" => "Error: ",
-                                    "message" => "Invalid CSV."
-                                );
-                            }
-                        }
-            }   
-        } 
-        
-        //Function for reading the CSV-file
-        function readCSV($filesname){
-            
-            //foreach ($filename as $file){
-                
-               // foreach($filesname as $filename){
-                    $file = array_map('str_getcsv', file($filesname));
-                    foreach($file as $row){
-                        if($row < 4){
-                        $newstudent = new Student ($row[0], $row[1], $row[2], $row[3]);
-                        $newstudent->showStudentInfo($row[0], $row[1], $row[2], $row[3]);
-                        } elseif($row > 3){
-                        $newcourse = new Course ($row[4], $row[5], $row[6], $row[7], $row[8], $row[9]);
-                        $newcourse->showCourseInfo($row[4], $row[5], $row[6], $row[7], $row[8], $row[9]);
-                        }
-                    if($courseCode == -1){
-                        array_push($this->cArray, $newCourse);
-                        
+                $studentArray = array(); //Preparing a student array
+                $studrow = 1; //Define the studentrow
+                if (($studfp = fopen('../files/students.csv', "r")) !== FALSE) {
+                    while (($data = fgetcsv($studfp, 5000, ",")) !== FALSE) {
+                        $studentArray[] = $data; //get the information in the upload CSV file and place it in the lengthArray
+                        $studrow ++; //Increase the studentrow
                     }
-
-                    }
-
+                }
                     
-                    //echo $newstudent->showStudentInfo($row[0], $row[1], $row[2], $row[3]);
-                    $this->sArray[$newstudent-> getStudNo()] = $newstudent;
-                    $this->cArray[$newcourse-> getCcode()] = $newcourse;
-                    //echo $newcourse->showCourseInfo($row[4], $row[5], $row[6], $row[7], $row[8], $row[9]);
-                        /* foreach ($newstudent as $student){
-                            array_push($this->getsArray(), $student);                            
-                            
-                        }
-                        foreach($newcourse as $course){
-                            array_push($this->getcArray(), $course);
-                            
-                        } */
-
-                //}
-            //}
-
-
-        }
-
-        //Get- and set-functions
-        function getsArray(){
-            return $this->sArray;
-        }
-
-        function getcArray(){
-            return $this->cArray;
-        }
-
-        function setsArray($sArray){
-            return $this->sArray = $sArray;
-        }
-
-        function setcArray($cArray){
-            return $this->cArray = $cArray;
-        }
-
-
-
-        //Function for checking whether the grade is a passed or a failed grade
-        function checkGrade($grade){
-            switch ($grade) {
-                case 'A':
-                case 'B':
-                case 'C':
-                case 'D':
-                case 'E':
-                    return true;
-                case 'F':
-                    return false;
-            }
-            /* if ($grade = 'A' || $grade = 'B' || $grade = 'C' || $grade = 'D' || $grade = 'E'){
-                return true;
-            } else if ($grade = 'F'){
-                return false;
-            } */
-        }
-
-        //Function for converting the letter-grade to the grade in number.
-
-        function gradeToNumber($grade){
-            switch($grade) {
-                case 'A':
-                    return 5;
-                case 'B':
-                    return 4;
-                case 'C':
-                    return 3;
-                case 'D':
-                    return 2;
-                case 'E':
-                    return 1;
-                case 'F':
-                    return 0;
-            }
-            /* if ($grade='A'){
-                return 5;
-            } else if ($grade='B'){
-                return 4;
-            } else if ($grade='C'){
-                return 3;
-            } else if ($grade='D'){
-                return 2;
-            } else if ($grade='E'){
-                return 1;
-            } else if ($grade='F') {
-                return 0;
-            } */
-        }
-
-
-        //Function for setting status on a student.
-
-        function setStatus($gpa){
-            if ($gpa >=0 && $gpa <=1.99){
-                $status = "Unsatisfactory";
-                return $status;
-            } else if ($gpa >=2 && $gpa <=2.99){
-                $status = "Satisfactory";
-                return $status;
-            } else if ($gpa >=3 && $gpa <=3.99){
-                $status = "Honour";
-                return $status;
-            } else if($gpa >=4 && $gpa <=5){
-                $status = "High honour";
-                return $status;
-            }
-        }
-
+                $courseArray = array(); //Preparing a course array
+                $courserow = 1; //Define the courserow
+                if (($coursefp = fopen('../files/courses.csv', "r")) !== FALSE) {
+                    while (($data = fgetcsv($coursefp, 5000, ",")) !== FALSE) {
+                        $courseArray[] = $data; //get the information in the upload CSV file and place it in the lengthArray
+                        $courserow ++; //Increase the courserow
+                    }
+                }
   
+                $gradeArray = array(); //Preparing a grade array
+                $graderow = 1; //Define the graderow
+                if (($gradefp = fopen('../files/grades.csv', "r")) !== FALSE) {
+                    while (($data = fgetcsv($gradefp, 5000, ",")) !== FALSE) {
+                        $gradeArray[] = $data; //get the information in the upload CSV file and place it in the lengthArray
+                        $graderow ++; //Increase the graderow
+                    }
+                }
+                    
+                //For each line in the lenghtarray
+                foreach($lengthArray as $rows) {
+                    array_push($studentArray, array($rows[0], $rows[1], $rows[2], (strtotime($rows[3])))); //Place row 0 - 3 in studentarray, and convert the time to unix.
+                    array_push($courseArray, array($rows[4], $rows[5], $rows[6], $rows[7], $rows[8], $rows[9])); //Place row 4 - 9 in course array
+                    array_push($gradeArray, array($rows[0], $rows[4], $rows[9], $rows[10])); //Place the rows 0, 4, 9, and 10 in the grade array
+                }
+                
+                //Validating the arrays and checking of the new input is unique
+                $studentArray = validateArray($studentArray);
+                $studentArray = uniqueRows($studentArray);
+                $courseArray = validateArray($courseArray);
+                $courseArray = uniqueRows($courseArray);
+                $gradeArray = validateGradeArray($gradeArray);
+                $gradeArray = uniqueRows($gradeArray);
+                
+                $openstudents = fopen('../files/students.csv', 'w+'); //Open the students.csv file and allow for preserving the content
+                $opencourses = fopen('../files/courses.csv', 'w+'); //Open the courses.csv file and allow for preserving the content
+                $opengrades = fopen('../files/grades.csv', 'w+'); //Open the grades.csv file and allow for preserving the content
+                
+                foreach($studentArray as $row){
+                    fputcsv($openstudents, $row); //take the studentarray and put the content into the student.csv file
+                }
+                foreach($courseArray as $row){
+                    fputcsv($opencourses, $row); //take the coursearray and put the content into the courses.csv file
+                }
+                foreach($gradeArray as $row){
+                    fputcsv($opengrades, $row); //take the gradearray and put the content into the grades.csv file
+                }
+
+                echo "You have updated the table!"; //Echo message
+                
+
+                //Close connections
+                fclose($openstudents);
+                fclose($opencourses);
+                fclose($opengrades);
+                fclose($fp);       
+            }
+        }
     }
+}
+
+
+
+/* function CSVtoArray($array, $csvpath){
+    $array = array(); //Preparing a grade array
+    $row = 1;
+    if (($fp = fopen($csvpath, "r")) !== FALSE) {
+        while (($data = fgetcsv($fp, 5000, ",")) !== FALSE) {
+            $array[] = $data; //get the information in the upload CSV file and place it in the lengthArray
+            $row ++; //?????
+        }
+    }
+} */
+
+/**  
+ * Function for checking for unique rows
+ * @param { array } $array -> The chosen array to check if the lines are unique
+ * @return { array } $array -> Returns the chosen array after it being checked
+ */
+function uniqueRows($array) {
+    $array = array_map("unserialize", array_unique(array_map("serialize", $array)));
+    $array = array_values($array);
+    return $array;
+}
+
+/**
+ * Function for checking if a grade is pass or fail.
+ * @param { string } $grade -> The grade to be checked
+ *  
+ */ 
+
+function checkGrade($grade){
+    switch ($grade) {
+        case 'A':
+        case 'B':
+        case 'C':
+        case 'D':
+        case 'E':
+            return true; //If the grade is A - E, return true.
+        case 'F':
+            return false; //If the grade is F return false
+    }
+}
+
+/** Tutorial from https://davidwalsh.name/sort-objects
+ * Functions for sorting the students and the courses
+ * The function will return 0 if the comparison is equal, 
+ * -1 if the comparison is smaller, thus placing it further back, 
+ * and +1 if the comparison is bigger, thus placing it forward
+ * @param { object } $a -> The first object to be compared and moved based on the comparison
+ * @param { object } $b -> The object to compare with
+ * 
+*/
+function sortStudents($a, $b) {
+    if($a->gpa == $b->gpa){ 
+        return 0; 
+    }
+    return ($a->gpa > $b->gpa) ? -1 : 1;
+}
+
+/**
+ * @param { object } $a -> The first object to be compared and moved based on the comparison
+ * @param { object } $b -> The object to compare with
+ * 
+ */
+function sortCourses($a, $b) {
+    if($a->studentsRegistered == $b->studentsRegistered){ 
+        return 0; 
+    }
+    return ($a->studentsRegistered < $b->studentsRegistered) ? -1 : 1;
+}
+
+/** 
+ * Function for validating the student array and the course array
+ * @param { array } $array -> The array to be validated
+ * @return { array } $validatedArray -> Returns the validated array
+*/
+function validateArray($array) {
+    $validatedArray = array(); //Preparing the validated array
+    $i = 0; //Preparing an index
+    $key_array = array(); //Preparing a key array
+    
+    foreach($array as $row) {
+            //If the first element in the array (the primary key) is not already in the key array
+            if (!in_array($row[0], $key_array)) {
+            $key_array[$i] = $row[0]; //The key array is equal to the first element in the row in the array
+            $validatedArray[$i] = $row; //The validated array row is equal to the row
+        }
+        $i++; //Increase the index
+    }
+    return $validatedArray; //Return the validated array
+}
+
+/** 
+ * Function for validating the grade array
+ * @param { array } $array -> The array to be validated
+ * @return { array } $validatedArray -> Returns the validated array
+*/
+function validateGradeArray($array) {
+    $validatedArray = array(); //Preparing the validated array
+    $i = 0; //Preparing an index
+    $key_array = array(); //Preparing a key array
+    
+    foreach($array as $row){
+            //If the first element and the second element in the array (the primary key) is not already in the key array
+            if(!in_array($row[0], $key_array) && !in_array($row[1], $key_array)){
+            $key_array[$i] = $row[0] . $row[1]; //The key array is equal to the first element in the row in the array
+            $validatedArray[$i] = $row; //The validated array row is equal to the row
+        }
+        $i++; //Increase the index
+    }
+    return $validatedArray; //Return the validated array
+} 
+
+
+
+
 
 ?>

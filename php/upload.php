@@ -1,7 +1,7 @@
 <?php
     include_once '../html/nav.html';
     //include_once 'Data.php';
-    include_once 'data3.php';
+    include_once 'data.php';
     
     
 
@@ -24,8 +24,6 @@
         <br> <br> 
     _END;
 
-    //require_once 'Data.php';
-
     //Adding the form for uploading new information
     echo <<< _END
             <form method='post' action='upload.php' enctype='multipart/form-data'>
@@ -34,9 +32,6 @@
             </form>
         </div>
     _END;
-
-    /* $update = new Data('../files/update.csv');
-    echo $update->csvToArray('../files/students.csv'); */
 
 
 ?>

@@ -1,7 +1,9 @@
 <?php
+
+//Include these files:
 include_once '../html/nav.html';
-include_once 'data3.php';
-include_once 'Course.php';
+include_once 'data.php';
+include_once 'classes/CourseClass.php';
 
 $courseArray = array(); //Preparing a course array
 $gradeArray = array();  //Preparing a grade array
@@ -25,8 +27,8 @@ if (($courseCSV = fopen('../files/courses.csv', 'r')) !== FALSE) {
         $course->studentsRegistered = $course->registeredStudents($gradeArray);  //Find the number of registred students in the course
         $course->studentsPassed = $course->studentsPassed($gradeArray);  //Find the number of passed students in the course
         $course->studentsFailed = $course->studentsFailed($gradeArray);  //Find the number of failed students in the course
-        $course->avgGrade = $course->avgGrade($gradeArray);
-        array_push($objectArray, $course);
+        $course->avgGrade = $course->avgGrade($gradeArray); //Find the average grade in the course
+        array_push($objectArray, $course); //Push the object into the object array
     }
     fclose($courseCSV); //Close the link to the students csv-file.
 }
@@ -57,8 +59,9 @@ echo <<< _END
         <tbody>
 _END;
 
+//For each object in the object array
 foreach($objectArray as $object){
-    $object->showCourseInfo();
+    $object->showCourseInfo(); //Run the showCourseInfo function
 }
 
 //Finish the table structure in HTML   
