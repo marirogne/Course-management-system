@@ -2,8 +2,6 @@
     include_once '../html/nav.html';
     //include_once 'Data.php';
     include_once 'data.php';
-    
-    
 
     //Adding some iformation on the upload page
     echo <<< _END
@@ -13,7 +11,7 @@
                 <li>Student number</li>
                 <li>Student name</li>
                 <li>Student surname</li>
-                <li>Student birthdate</li>
+                <li>Student birthdate (yyyy-mm-dd)</li>
                 <li>Course code</li>
                 <li>Course year</li>
                 <li>Course semester</li>

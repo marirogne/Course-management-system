@@ -47,48 +47,6 @@ class Course {
         </tr>';
     }
 
-    //get-functions
-/* 
-    function getCcode(){
-        return $this->ccode;
-    }
-
-    function getName(){
-        return $this->name;
-    }
-
-    function getYear(){
-        return $this->year;
-    }
-
-    function getSemester(){
-        return $this->semester;
-    }
-
-    function getCredits(){
-        return $this->credits;
-    }
-
-    function getInstructor(){
-        return $this->instructor;
-    }
- */
-
-    //Set functions
-
-    /* function setCcode($ccode){
-        return $this->ccode = $ccode;
-    }
-    
-    function setName($name){
-        return $this->name = $name;
-    }
-
-    function setYear($year){
-        return $this->year = $year;
-    }
- */
-
     /**
      * Declaring which values are acceptable for the semester
      * @param { string } $semester -> The semester in the object
@@ -114,12 +72,6 @@ class Course {
             echo "Credits are not valid.";
         }
     }
-
-   /*  function setInstructor ($instructor){
-        return $this->instructor = $instructor;
-    }
- */
-
 
     /**
      * Function for finding the number of registered students in a course

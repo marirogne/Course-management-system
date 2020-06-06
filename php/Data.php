@@ -97,19 +97,6 @@ if(isset($_POST['upload'])){ //If the upload-button is pushed
     }
 }
 
-
-
-/* function CSVtoArray($array, $csvpath){
-    $array = array(); //Preparing a grade array
-    $row = 1;
-    if (($fp = fopen($csvpath, "r")) !== FALSE) {
-        while (($data = fgetcsv($fp, 5000, ",")) !== FALSE) {
-            $array[] = $data; //get the information in the upload CSV file and place it in the lengthArray
-            $row ++; //?????
-        }
-    }
-} */
-
 /**  
  * Function for checking for unique rows
  * @param { array } $array -> The chosen array to check if the lines are unique

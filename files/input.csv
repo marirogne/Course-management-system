@@ -1,7 +1,7 @@
 111111,Ola,Nordmann,1995-10-10,IMT1012,Webprosjekt 1,2019,Spring,Carlos Vicient,10,C
 111111,Ola,Nordmann,1995-10-10,IMT1008,Medie- og designrett,2019,Fall,Anne Oline Haugen,10,F
 111111,Ola,Nordmann,1995-10-10,IMT2671,Webprosjekt 2,2020,Spring,Carlos Vicient,10,D
-111111,Ola,Nordmann,1995-10-10,IMT3851,Programming for web 2,2020,Spring,Aland Mendoza,10,C
+111111,Ola,Nordmann,1995-10-10,IMT3851,Programming for web 2,2020,Spring,Aland Mendoza,10,F
 222222,Kari,Nordmann,1994-01-01,IMT1012,Webprosjekt 1,2019,Spring,Carlos Vicient,10,C
 222222,Kari,Nordmann,1994-01-01,IMT1008,Medie- og designrett,2019,Fall,Anne Oline Haugen,10,B
 222222,Kari,Nordmann,1994-01-01,IMT2671,Webprosjekt 2,2020,Spring,Carlos Vicient,10,D
@@ -17,3 +17,4 @@
 444444,Jane,Doe,1997-05-19,IMT2671,Webprosjekt 2,2020,Spring,Carlos Vicient,10,C
 444444,Jane,Doe,1997-05-19,IMT3851,Programming for web 2,2020,Spring,Aland Mendoza,10,F
 444444,Jane,Doe,1997-05-19,IMT2261,Informasjonsstrukturer og databaser,2019,Fall,Deepti Mishra,10,A
+444444,Jane,Doe,1997-05-19,IMT1292,Webkoding,2018,Fall,Carlos Vicient,10,B
