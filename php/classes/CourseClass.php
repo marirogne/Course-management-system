@@ -142,9 +142,9 @@ class Course {
         }
         //If count the avgGrade array
         if(count($this->avgGrade)){
-            $tempSum = array_sum($this->avgGrade); //Make a temparay sum variable that is the sum of the avgGrade array
-            $tempCount = count($this->avgGrade); //Make a temporary count of all the grades in the avgGrade array
-            $average = $tempSum / $tempCount; //Average is the tempsum variable divided on tempcount variable
+            $sum = array_sum($this->avgGrade); //Make a temparay sum variable that is the sum of the avgGrade array
+            $count = count($this->avgGrade); //Make a temporary count of all the grades in the avgGrade array
+            $average = $sum / $count; //Average is the tempsum variable divided on tempcount variable
         }
         $avg = $grades[round($average)]; //Avg equals to the (rounded)average grade in the grades array
         

@@ -108,7 +108,7 @@ class Student {
      * @return { int } $gpa -> The GPA of the student
      */
     function calculateGPA($array) {
-        $totalCredits = 0; //Preparing a totalCredits array
+        $totalCredits = 0; //Preparing a totalCredits
 
         $grades = ["F", "E", "D", "C", "B", "A"]; //An array containing all the possible grades, F is placed first as it is row 0, while A represents row 5
         
@@ -123,11 +123,11 @@ class Student {
 
         //Calculate course_credit x grade
         //For each line in the array
-        foreach ($array as $stud) {
+        foreach ($array as $student) {
             //If the first element in the array is equal to the student number of the object
-            if ($stud[0] == $this->studNo) {
-                $gradeValue = array_search($stud[3], $grades); //Search for the grade from the array in the grades array and assign it to the variable
-                $courseCredit = $stud[2]; //Assign the credits to the temporarily credits variable
+            if ($student[0] == $this->studNo) {
+                $gradeValue = array_search($student[3], $grades); //Search for the grade from the array in the grades array and assign it to the variable
+                $courseCredit = $student[2]; //Assign the credits to the temporarily credits variable
                 $sumGradeCredit = $gradeValue*$courseCredit; //Gradecredit equals to the value of the grade * the credits of the course
                 array_push($this->gradeCreditSum, $sumGradeCredit); //Push this gradecredit to the credits passed array.
             }
